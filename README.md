@@ -1,2 +1,2 @@
 # SKANODE
-Structured Kolmogorov-Arnold Neural ODEs for Interpretable Learning and Symbolic Discovery of Nonlinear Dynamics
+The code will be made available very soon. Stay tuned!
