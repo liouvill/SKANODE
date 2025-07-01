@@ -69,7 +69,7 @@ class KANODEfunc(nn.Module):
         input_dim = 2 * sys_dim + ctrl_dim  # [x, v, u]
         output_dim = sys_dim  # dv/dt
         width = [input_dim] + hidden_dims + [output_dim]
-        self.kan = KAN.loadckpt('./model/' + '0.12')
+        self.kan = KAN.loadckpt('saved_models/kan/' + '0.12')
         #self.kan = KAN(width=width, grid=grid, k=k)
 
     def forward(self, t, z):
@@ -141,7 +141,7 @@ def count_parameters(model):
 # Main Training Loop
 # ----------------------------
 if __name__ == '__main__':
-    filename = f'skanode./{args.experiment_no}./'
+    filename = f'saved_models/skanode/{args.experiment_no}/'
     os.makedirs(f'./{filename}', exist_ok=True)
 
     data_dim = 1

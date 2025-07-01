@@ -49,10 +49,10 @@ labels =['SKANODE', 'SONODE', 'ANODE']
 colors = ['#D15C6B', '#206491', '#B39B83']
 
 def add_bit(x):
-    iters = np.load(names[x]+'./1./itr_arr.npy')
-    loss_1 = np.load(names[x]+'./1./loss_arr.npy')
-    loss_2 = np.load(names[x]+'./2./loss_arr.npy')
-    loss_3 = np.load(names[x]+'./3./loss_arr.npy')
+    iters = np.load('saved_models/'+names[x]+'/1/itr_arr.npy')
+    loss_1 = np.load('saved_models/'+names[x]+'/1/loss_arr.npy')
+    loss_2 = np.load('saved_models/'+names[x]+'/2/loss_arr.npy')
+    loss_3 = np.load('saved_models/'+names[x]+'/3/loss_arr.npy')
     
     loss = np.empty((len(loss_1),3))
     for i in range(len(loss_1)):
@@ -94,9 +94,9 @@ plt.title('Duffing Oscillator Training MSE', fontsize=40)
 #################################################
 sns.set_style('dark')
 ax2 = plt.subplot(2,2,2)
-skanode_to_plot_acc2 = np.load('skanode./1./acc2_test.npy')
-sonode_to_plot_acc2 = np.load('sonode./1./acc2_test.npy')
-anode_to_plot_acc2 = np.load('anode./1./acc2_test.npy')
+skanode_to_plot_acc2 = np.load('saved_models/skanode/1/acc2_test.npy')
+sonode_to_plot_acc2 = np.load('saved_models/sonode/1/acc2_test.npy')
+anode_to_plot_acc2 = np.load('saved_models/anode/1/acc2_test.npy')
 rc('font', family='serif')
 rc('text', usetex=True)
 plt.plot(samp_ts_array, sonode_to_plot_acc2, label='SONODE', color='#206491', linestyle='--', lw=3)
@@ -117,9 +117,9 @@ plt.legend([handles[idx] for idx in order],[labels[idx] for idx in order],\
 ###################################################
 sns.set_style('dark')
 ax3 = plt.subplot(2,2,3)
-skanode_to_plot_state = np.load('skanode./1./state_test.npy')
-sonode_to_plot_state = np.load('sonode./1./state_test.npy')
-anode_to_plot_state = np.load('anode./1./state_test.npy')
+skanode_to_plot_state = np.load('saved_models/skanode/1/state_test.npy')
+sonode_to_plot_state = np.load('saved_models/sonode/1/state_test.npy')
+anode_to_plot_state = np.load('saved_models/anode/1/state_test.npy')
 rc('font', family='serif')
 rc('text', usetex=True)
 plt.plot(samp_ts_array, sonode_to_plot_state[...,0], label='SONODE', color='#206491', linestyle='--', lw=3)
@@ -139,9 +139,9 @@ plt.legend([handles[idx] for idx in order],[labels[idx] for idx in order],\
 ###################################################
 sns.set_style('dark')
 ax4 = plt.subplot(2,2,4)
-skanode_to_plot_state = np.load('skanode./1./state_test.npy')
-sonode_to_plot_state = np.load('sonode./1./state_test.npy')
-anode_to_plot_state = np.load('anode./1./state_test.npy')
+skanode_to_plot_state = np.load('saved_models/skanode/1/state_test.npy')
+sonode_to_plot_state = np.load('saved_models/sonode/1/state_test.npy')
+anode_to_plot_state = np.load('saved_models/anode/1/state_test.npy')
 rc('font', family='serif')
 rc('text', usetex=True)
 plt.plot(samp_ts_array, sonode_to_plot_state[...,1], label='SONODE', color='#206491', linestyle='--', lw=3)
@@ -168,9 +168,9 @@ names = ['skanode', 's3node', 'sonode', 'anode']
 labels =['SKANODE', 'S3NODE', 'SONODE', 'ANODE']
 
 def mse_acc(x):
-    acc2_1 = np.load(names[x]+'./1./acc2_test.npy')
-    acc2_2 = np.load(names[x]+'./2./acc2_test.npy')
-    acc2_3 = np.load(names[x]+'./3./acc2_test.npy')
+    acc2_1 = np.load('saved_models/'+names[x]+'/1/acc2_test.npy')
+    acc2_2 = np.load('saved_models/'+names[x]+'/2/acc2_test.npy')
+    acc2_3 = np.load('saved_models/'+names[x]+'/3/acc2_test.npy')
     
     mse = np.empty(3)
     mse[0] = np.mean((acc2_data[...,0] - acc2_1)**2)
@@ -189,9 +189,9 @@ mse_acc(2)
 mse_acc(3)
 
 def mse_dis(x):
-    dis_1 = np.load(names[x]+'./1./state_test.npy')[...,0]
-    dis_2 = np.load(names[x]+'./2./state_test.npy')[...,0]
-    dis_3 = np.load(names[x]+'./3./state_test.npy')[...,0]
+    dis_1 = np.load('saved_models/'+names[x]+'/1/state_test.npy')[...,0]
+    dis_2 = np.load('saved_models/'+names[x]+'/2/state_test.npy')[...,0]
+    dis_3 = np.load('saved_models/'+names[x]+'/3/state_test.npy')[...,0]
     
     mse = np.empty(3)
     mse[0] = np.mean((true_state[...,0] - dis_1)**2)
@@ -210,9 +210,9 @@ mse_dis(2)
 mse_dis(3)
 
 def mse_vel(x):
-    vel_1 = np.load(names[x]+'./1./state_test.npy')[...,1]
-    vel_2 = np.load(names[x]+'./2./state_test.npy')[...,1]
-    vel_3 = np.load(names[x]+'./3./state_test.npy')[...,1]
+    vel_1 = np.load('saved_models/'+names[x]+'/1/state_test.npy')[...,1]
+    vel_2 = np.load('saved_models/'+names[x]+'/2/state_test.npy')[...,1]
+    vel_3 = np.load('saved_models/'+names[x]+'/3/state_test.npy')[...,1]
     
     mse = np.empty(3)
     mse[0] = np.mean((true_state[...,1] - vel_1)**2)
