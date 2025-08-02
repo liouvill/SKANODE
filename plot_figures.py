@@ -8,6 +8,7 @@ import torch.nn as nn
 import torch.optim as optim
 import seaborn as sns
 import scipy.io as sio
+from skimage.metrics import structural_similarity as ssim
 
 
 parser = argparse.ArgumentParser()
@@ -180,13 +181,8 @@ def mse_acc(x):
     mse_mean = np.mean(mse)
     mse_std = np.std(mse)
     
-    print(mse_mean, mse_std)
+    print(f"MSE for Acceleration ({labels[x]}) - Mean: {mse_mean:10.6e}, Std: {mse_std:10.6e}")
 
-
-mse_acc(0)
-mse_acc(1)
-mse_acc(2)
-mse_acc(3)
 
 def mse_dis(x):
     dis_1 = np.load('saved_models/'+names[x]+'/1/state_test.npy')[...,0]
@@ -201,13 +197,8 @@ def mse_dis(x):
     mse_mean = np.mean(mse)
     mse_std = np.std(mse)
     
-    print(mse_mean, mse_std)
+    print(f"MSE for Displacement ({labels[x]}) - Mean: {mse_mean:10.6e}, Std: {mse_std:10.6e}")
 
-
-mse_dis(0)
-mse_dis(1)
-mse_dis(2)
-mse_dis(3)
 
 def mse_vel(x):
     vel_1 = np.load('saved_models/'+names[x]+'/1/state_test.npy')[...,1]
@@ -222,10 +213,85 @@ def mse_vel(x):
     mse_mean = np.mean(mse)
     mse_std = np.std(mse)
     
-    print(mse_mean, mse_std)
+    print(f"MSE for Velocity ({labels[x]}) - Mean: {mse_mean:10.6e}, Std: {mse_std:10.6e}")
 
+
+mse_acc(0)
+mse_acc(1)
+mse_acc(2)
+mse_acc(3)
+
+mse_dis(0)
+mse_dis(1)
+mse_dis(2)
+mse_dis(3)
 
 mse_vel(0)
 mse_vel(1)
 mse_vel(2)
 mse_vel(3)
+
+print()  # Add blank line between MSE and SSIM outputs
+
+def ssim_acc(x):
+    acc2_1 = np.load('saved_models/'+names[x]+'/1/acc2_test.npy')
+    acc2_2 = np.load('saved_models/'+names[x]+'/2/acc2_test.npy')
+    acc2_3 = np.load('saved_models/'+names[x]+'/3/acc2_test.npy')
+    
+    ssim_vals = np.empty(3)
+    ssim_vals[0] = ssim(acc2_data[...,0], acc2_1, data_range=acc2_data[...,0].max() - acc2_data[...,0].min())
+    ssim_vals[1] = ssim(acc2_data[...,0], acc2_2, data_range=acc2_data[...,0].max() - acc2_data[...,0].min())
+    ssim_vals[2] = ssim(acc2_data[...,0], acc2_3, data_range=acc2_data[...,0].max() - acc2_data[...,0].min())
+    
+    ssim_mean = np.mean(ssim_vals)
+    ssim_std = np.std(ssim_vals)
+    
+    print(f"SSIM for Acceleration ({labels[x]}) - Mean: {ssim_mean:10.6f}, Std: {ssim_std:10.6f}")
+
+
+def ssim_dis(x):
+    dis_1 = np.load('saved_models/'+names[x]+'/1/state_test.npy')[...,0]
+    dis_2 = np.load('saved_models/'+names[x]+'/2/state_test.npy')[...,0]
+    dis_3 = np.load('saved_models/'+names[x]+'/3/state_test.npy')[...,0]
+    
+    ssim_vals = np.empty(3)
+    ssim_vals[0] = ssim(true_state[...,0], dis_1, data_range=true_state[...,0].max() - true_state[...,0].min())
+    ssim_vals[1] = ssim(true_state[...,0], dis_2, data_range=true_state[...,0].max() - true_state[...,0].min())
+    ssim_vals[2] = ssim(true_state[...,0], dis_3, data_range=true_state[...,0].max() - true_state[...,0].min())
+    
+    ssim_mean = np.mean(ssim_vals)
+    ssim_std = np.std(ssim_vals)
+    
+    print(f"SSIM for Displacement ({labels[x]}) - Mean: {ssim_mean:10.6f}, Std: {ssim_std:10.6f}")
+
+
+def ssim_vel(x):
+    vel_1 = np.load('saved_models/'+names[x]+'/1/state_test.npy')[...,1]
+    vel_2 = np.load('saved_models/'+names[x]+'/2/state_test.npy')[...,1]
+    vel_3 = np.load('saved_models/'+names[x]+'/3/state_test.npy')[...,1]
+    
+    ssim_vals = np.empty(3)
+    ssim_vals[0] = ssim(true_state[...,1], vel_1, data_range=true_state[...,1].max() - true_state[...,1].min())
+    ssim_vals[1] = ssim(true_state[...,1], vel_2, data_range=true_state[...,1].max() - true_state[...,1].min())
+    ssim_vals[2] = ssim(true_state[...,1], vel_3, data_range=true_state[...,1].max() - true_state[...,1].min())
+    
+    ssim_mean = np.mean(ssim_vals)
+    ssim_std = np.std(ssim_vals)
+    
+    print(f"SSIM for Velocity ({labels[x]}) - Mean: {ssim_mean:10.6f}, Std: {ssim_std:10.6f}")
+
+
+ssim_acc(0)
+ssim_acc(1)
+ssim_acc(2)
+ssim_acc(3)
+
+ssim_dis(0)
+ssim_dis(1)
+ssim_dis(2)
+ssim_dis(3)
+
+ssim_vel(0)
+ssim_vel(1)
+ssim_vel(2)
+ssim_vel(3)
